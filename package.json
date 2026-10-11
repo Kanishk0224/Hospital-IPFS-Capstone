@@ -1,0 +1,24 @@
+{
+  "name": "medicare-hospital-management",
+  "version": "1.0.0",
+  "description": "Modern Hospital Appointment and Medical Record Management System for Capstone Project",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.2.0"
+  },
+  "keywords": [
+    "hospital-management",
+    "medical-records",
+    "doctor-appointment",
+    "capstone-project",
+    "healthcare-ui"
+  ],
+  "author": "MediCare+ Health Systems",
+  "license": "MIT"
+}

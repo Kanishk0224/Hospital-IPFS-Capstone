@@ -1,0 +1,230 @@
+/* ========================================================
+   MediCare+ Healthcare System - Responsive & Print Styles
+   ======================================================== */
+
+/* Tablet Breakpoint (<= 1024px) */
+@media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .hero-media-wrapper {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .specialties-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .process-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-grid-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .appointment-card {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .app-card-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .auth-split-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-visual-pane {
+    display: none;
+  }
+}
+
+/* Mobile Breakpoint (<= 768px) */
+@media (max-width: 768px) {
+  .desktop-nav-menu {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  .hero-title {
+    font-size: 2.25rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .specialties-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .emergency-banner-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .emergency-action-box {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dashboard-shell {
+    flex-direction: column;
+  }
+
+  .dashboard-sidebar {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .dashboard-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .dashboard-main-content {
+    padding: 1.25rem;
+  }
+
+  .dashboard-welcome-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .review-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .receipt-body-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-dialog {
+    padding: 0;
+    margin: 0.5rem;
+  }
+
+  .official-prescription-sheet {
+    padding: 1.25rem;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-bottom-bar {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
+
+/* Small Smartphone Breakpoint (<= 480px) */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.85rem;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+  }
+
+  .doctor-card-footer {
+    flex-direction: column;
+  }
+
+  .quick-action-buttons-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .toast-container {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  .toast-item {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+/* ========================================================
+   PRINT STYLESHEET (For Prescriptions and Appointments)
+   ======================================================== */
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+
+  .site-header,
+  .site-footer,
+  .dashboard-sidebar,
+  .no-print,
+  .btn,
+  .toast-container,
+  .theme-toggle-btn,
+  .modal-close-btn,
+  .filter-pills-row,
+  .directory-controls-bar {
+    display: none !important;
+  }
+
+  .modal-overlay {
+    position: static !important;
+    display: block !important;
+    background: none !important;
+    padding: 0 !important;
+  }
+
+  .modal-dialog {
+    border: none !important;
+    box-shadow: none !important;
+    max-width: 100% !important;
+  }
+
+  .official-prescription-sheet {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    color: #000000 !important;
+  }
+
+  .booking-receipt-slip {
+    border: 1px solid #000000 !important;
+    page-break-inside: avoid;
+  }
+}

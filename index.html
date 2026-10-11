@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediCare+ | Hospital Appointment & Medical Record Management System</title>
+  <meta name="description" content="Modern healthcare management portal allowing patients to book specialist appointments, consult doctors, and access encrypted electronic medical records online.">
+  
+  <!-- Modern Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Bespoke Healthcare CSS Design Tokens -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- ========================================================
+       TOP HEADER & MAIN NAVIGATION
+       ======================================================== -->
+  <header class="site-header" id="mainHeader">
+    <div class="navbar-container">
+      <a href="#home" class="brand-logo" data-nav-target="home">
+        <div class="brand-icon-wrapper">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <span>MediCare<span class="brand-text-accent">+</span></span>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav aria-label="Main Navigation">
+        <ul class="desktop-nav-menu">
+          <li><a href="#home" class="nav-link active" data-nav-target="home">Home</a></li>
+          <li><a href="#doctors" class="nav-link" data-nav-target="doctors">Find Doctors</a></li>
+          <li><a href="#booking" class="nav-link" data-nav-target="booking">Book Appointment</a></li>
+          <li class="nav-user-only"><a href="#appointments" class="nav-link" data-nav-target="appointments">My Appointments</a></li>
+          <li class="nav-user-only"><a href="#records" class="nav-link" data-nav-target="records">Medical Records</a></li>
+          <li class="nav-user-only"><a href="#dashboard" class="nav-link" data-nav-target="dashboard">Dashboard</a></li>
+          <li class="nav-admin-only hidden"><a href="#admin" class="nav-link" data-nav-target="admin"><i class="fa-solid fa-shield-halved text-teal mr-1"></i> Admin Portal</a></li>
+          <li><a href="#about" class="nav-link" data-nav-target="about">About</a></li>
+          <li><a href="#contact" class="nav-link" data-nav-target="contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right Action Items (Theme Toggle, Auth buttons, User Profile) -->
+      <div class="nav-actions-group">
+        <button class="theme-toggle-btn" title="Toggle Light / Dark Mode" aria-label="Toggle theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <!-- Guest state -->
+        <div class="nav-guest-only flex items-center gap-2">
+          <button class="btn btn-secondary btn-sm" onclick="App.navigateTo('auth'); Auth.switchAuthTab('login')">
+            <i class="fa-solid fa-right-to-bracket"></i> Login
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="App.navigateTo('auth'); Auth.switchAuthTab('register')">
+            Sign Up
+          </button>
+        </div>
+
+        <!-- Logged In state -->
+        <div class="nav-user-only flex items-center gap-3 hidden">
+          <div class="flex items-center gap-2 cursor-pointer" onclick="App.navigateTo('profile')">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="User Avatar" class="w-8 h-8 rounded-full object-cover current-user-avatar border border-primary">
+            <div class="hidden md:block text-left">
+              <span class="text-xs font-bold block current-user-name leading-tight">Alex Morgan</span>
+              <span class="text-xxs text-primary font-semibold current-user-role leading-tight">Patient</span>
+            </div>
+          </div>
+          <button class="btn btn-outline-secondary btn-xs logout-btn" title="Sign out">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+
+        <button class="mobile-menu-btn" id="mobileNavToggle" aria-label="Open mobile menu" aria-expanded="false">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Drawer -->
+    <div class="mobile-nav-drawer" id="mobileNavDrawer">
+      <ul class="mobile-nav-list">
+        <li><a href="#home" class="nav-link" data-nav-target="home"><i class="fa-solid fa-house mr-2"></i> Home</a></li>
+        <li><a href="#doctors" class="nav-link" data-nav-target="doctors"><i class="fa-solid fa-user-doctor mr-2"></i> Find Doctors</a></li>
+        <li><a href="#booking" class="nav-link" data-nav-target="booking"><i class="fa-regular fa-calendar-plus mr-2"></i> Book Appointment</a></li>
+        <li class="nav-user-only"><a href="#appointments" class="nav-link" data-nav-target="appointments"><i class="fa-regular fa-calendar-check mr-2"></i> My Appointments</a></li>
+        <li class="nav-user-only"><a href="#records" class="nav-link" data-nav-target="records"><i class="fa-solid fa-file-waveform mr-2"></i> Medical Records</a></li>
+        <li class="nav-user-only"><a href="#dashboard" class="nav-link" data-nav-target="dashboard"><i class="fa-solid fa-chart-line mr-2"></i> Patient Dashboard</a></li>
+        <li class="nav-admin-only hidden"><a href="#admin" class="nav-link" data-nav-target="admin"><i class="fa-solid fa-shield-halved mr-2"></i> Admin Portal</a></li>
+        <li><a href="#about" class="nav-link" data-nav-target="about"><i class="fa-solid fa-circle-info mr-2"></i> About Us</a></li>
+        <li><a href="#contact" class="nav-link" data-nav-target="contact"><i class="fa-solid fa-envelope mr-2"></i> Contact & Clinic</a></li>
+      </ul>
+      <div class="mt-4 pt-3 border-t border-slate-200 flex justify-between">
+        <button class="btn btn-secondary btn-sm w-full" id="resetAllDemoDataBtn">
+          <i class="fa-solid fa-rotate-left"></i> Reset Demo Data
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================
+       VIEW: HOME PAGE (Public Landing)
+       ======================================================== -->
+  <main class="app-view" id="view_home">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-grid">
+        <div class="hero-content-left">
+          <div class="hero-pill-badge">
+            <i class="fa-solid fa-shield-heart"></i>
+            <span>Award-Winning Integrated Healthcare & EHR</span>
+          </div>
+          <h1 class="hero-title">
+            Your Health, <span class="text-gradient">Our Priority</span>
+          </h1>
+          <p class="hero-subtitle">
+            Book appointments, connect with trusted board-certified specialists, and securely manage your medical records, prescriptions, and lab results in one unified platform.
+          </p>
+          <div class="hero-cta-group">
+            <button class="btn btn-primary btn-lg" onclick="Booking.startNew()">
+              <i class="fa-regular fa-calendar-check"></i> Book an Appointment
+            </button>
+            <button class="btn btn-secondary btn-lg" onclick="App.navigateTo('doctors')">
+              <i class="fa-solid fa-user-doctor"></i> Explore Doctors
+            </button>
+          </div>
+          <div class="hero-trust-bar">
+            <div class="trust-item">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span>24/7 Clinical Care</span>
+            </div>
+            <div class="trust-item">
+              <i class="fa-solid fa-user-shield"></i>
+              <span>Board-Certified</span>
+            </div>
+            <div class="trust-item">
+              <i class="fa-solid fa-certificate"></i>
+              <span>ISO 9001 Healthcare</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-media-wrapper">
+          <div class="hero-image-card">
+            <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=800" alt="Professional Doctor" class="hero-doctor-img" priority="high">
+            
+            <!-- Floating Metric Card Top -->
+            <div class="floating-glass-card card-top">
+              <div class="floating-card-icon blue-bg">
+                <i class="fa-solid fa-heart-pulse"></i>
+              </div>
+              <div>
+                <span class="text-sm font-bold block text-navy">99.4% Positive</span>
+                <span class="text-xs text-muted">Patient Recovery Index</span>
+              </div>
+            </div>
+
+            <!-- Floating Metric Card Bottom -->
+            <div class="floating-glass-card card-bottom">
+              <div class="floating-card-icon teal-bg">
+                <i class="fa-solid fa-calendar-check"></i>
+              </div>
+              <div>
+                <span class="text-sm font-bold block text-navy">Instant Booking</span>
+                <span class="text-xs text-muted">Zero Waiting Time</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="statistics-section">
+      <div class="stats-grid">
+        <div class="stat-counter-card">
+          <div class="stat-counter-number">50+</div>
+          <div class="stat-counter-label">Specialist Doctors</div>
+        </div>
+        <div class="stat-counter-card">
+          <div class="stat-counter-number">25,000+</div>
+          <div class="stat-counter-label">Happy Patients Treated</div>
+        </div>
+        <div class="stat-counter-card">
+          <div class="stat-counter-number">15+</div>
+          <div class="stat-counter-label">Medical Specialties</div>
+        </div>
+        <div class="stat-counter-card">
+          <div class="stat-counter-number">99.4%</div>
+          <div class="stat-counter-label">Satisfaction Rating</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Medical Specialties -->
+    <section class="specialties-section">
+      <div class="section-header-centered">
+        <span class="section-tag">Clinical Departments</span>
+        <h2 class="section-heading-main">Featured Medical Specialties</h2>
+        <p class="section-subtext">Our multi-specialty medical center provides comprehensive, world-class diagnostic and therapeutic interventions across all major fields.</p>
+      </div>
+      <div class="specialties-grid" id="homeSpecialtiesGrid">
+        <!-- Rendered by App.renderHomeSpecialties() -->
+      </div>
+    </section>
+
+    <!-- Top-Rated Doctors Section -->
+    <section class="doctors-showcase-section p-6 bg-surface-subtle" style="background-color: var(--bg-surface-subtle); padding: 5rem 1.5rem;">
+      <div class="section-header-centered">
+        <span class="section-tag">Expert Practitioners</span>
+        <h2 class="section-heading-main">Meet Our Top-Rated Doctors</h2>
+        <p class="section-subtext">Consult with verified medical consultants graduated from prestigious global institutions with decades of clinical excellence.</p>
+      </div>
+      <div class="doctors-grid" id="homeTopDoctorsGrid">
+        <!-- Rendered by App.renderHomeTopDoctors() -->
+      </div>
+      <div class="text-center mt-6">
+        <button class="btn btn-outline-primary btn-lg" onclick="App.navigateTo('doctors')">
+          View All Specialist Doctors <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Three-Step Appointment Booking Process -->
+    <section class="process-section">
+      <div class="section-header-centered">
+        <span class="section-tag">Seamless Experience</span>
+        <h2 class="section-heading-main">Three-Step Appointment Booking</h2>
+        <p class="section-subtext">Schedule your in-clinic or tele-health consultation in less than two minutes without phone queues.</p>
+      </div>
+      <div class="process-steps-grid">
+        <div class="process-card">
+          <div class="process-number-badge">1</div>
+          <div class="process-icon-box">
+            <i class="fa-solid fa-user-doctor"></i>
+          </div>
+          <h3 class="process-title">Find Your Specialist</h3>
+          <p class="process-desc">Search by medical specialty, symptoms, doctor credentials, or consult fees to select the ideal clinician.</p>
+        </div>
+        <div class="process-card">
+          <div class="process-number-badge">2</div>
+          <div class="process-icon-box">
+            <i class="fa-regular fa-calendar-days"></i>
+          </div>
+          <h3 class="process-title">Choose Date & Time Slot</h3>
+          <p class="process-desc">Pick convenient consultation hours with real-time slot availability for morning, afternoon, or evening sessions.</p>
+        </div>
+        <div class="process-card">
+          <div class="process-number-badge">3</div>
+          <div class="process-icon-box">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+          <h3 class="process-title">Instant Confirmation & EHR</h3>
+          <p class="process-desc">Receive immediate appointment slips with reference ID and have prescriptions automatically synchronized to your portal.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Patient Testimonials -->
+    <section class="testimonials-section">
+      <div class="section-header-centered">
+        <span class="section-tag">Patient Stories</span>
+        <h2 class="section-heading-main">Trusted by Over 25,000+ Patients</h2>
+        <p class="section-subtext">Real experiences from individuals and families who trust MediCare+ with their health journey.</p>
+      </div>
+      <div class="testimonials-grid" id="homeTestimonialsGrid">
+        <!-- Rendered by App.renderHomeTestimonials() -->
+      </div>
+    </section>
+
+    <!-- Emergency Contact Section -->
+    <section class="emergency-banner-section">
+      <div class="emergency-banner-container">
+        <div class="emergency-text">
+          <h3><i class="fa-solid fa-truck-medical text-red-400 mr-2"></i> Need Immediate Emergency Medical Attention?</h3>
+          <p>Our trauma emergency response wing and critical cardiac unit operate 24 hours a day, 7 days a week with zero delay.</p>
+        </div>
+        <div class="emergency-action-box">
+          <a href="tel:911" class="hotline-btn">
+            <i class="fa-solid fa-phone-volume"></i> Emergency: 911
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================
+       VIEW: FIND DOCTORS (Directory & Search)
+       ======================================================== -->
+  <main class="app-view hidden" id="view_doctors">
+    <div class="max-w-7xl p-6">
+      <div class="dashboard-welcome-banner">
+        <div>
+          <span class="section-tag">Medical Staff Directory</span>
+          <h1 class="welcome-title">Find Trusted Specialist Doctors</h1>
+          <p class="welcome-subtitle">Search, filter by medical specialty, experience, and book directly with leading practitioners.</p>
+        </div>
+        <div>
+          <button class="btn btn-primary" onclick="Booking.startNew()">
+            <i class="fa-solid fa-calendar-plus"></i> Quick Booking Wizard
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Multi-facet Filter Bar -->
+      <div class="directory-controls-bar">
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="doctorSearchInput" class="form-input" placeholder="Search doctor by name, qualification, or condition..." aria-label="Search doctor">
+          </div>
+
+          <div class="flex items-center gap-2">
+            <label for="availabilityFilterSelect" class="text-xs font-semibold text-muted whitespace-nowrap">Availability:</label>
+            <select id="availabilityFilterSelect" class="form-select text-sm py-2" style="width: auto;">
+              <option value="all">All Dates</option>
+              <option value="today">Available Today Only</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <label for="maxFeeRange" class="text-xs font-semibold text-muted whitespace-nowrap">Max Fee: <span id="maxFeeDisplay" class="text-primary font-bold">$200</span></label>
+            <input type="range" id="maxFeeRange" min="50" max="200" step="10" value="200" class="cursor-pointer" style="width: 110px;">
+          </div>
+
+          <div class="flex items-center gap-2">
+            <label for="doctorSortSelect" class="text-xs font-semibold text-muted whitespace-nowrap">Sort By:</label>
+            <select id="doctorSortSelect" class="form-select text-sm py-2" style="width: auto;">
+              <option value="recommended">Recommended (Top Rated)</option>
+              <option value="exp-desc">Experience (Highest First)</option>
+              <option value="fee-asc">Fee (Lowest First)</option>
+              <option value="fee-desc">Fee (Highest First)</option>
+              <option value="name-asc">Name (A-Z)</option>
+            </select>
+          </div>
+
+          <button class="btn btn-outline-secondary btn-sm" id="resetDoctorFiltersBtn" title="Reset Filters">
+            <i class="fa-solid fa-rotate-left"></i> Reset
+          </button>
+        </div>
+
+        <!-- Specialty Filter Pills -->
+        <div class="filter-pills-row" id="specialtyFilterPills">
+          <button class="filter-pill active" data-specialty-filter="all">All Specialties</button>
+          <button class="filter-pill" data-specialty-filter="cardiology">Cardiology</button>
+          <button class="filter-pill" data-specialty-filter="neurology">Neurology</button>
+          <button class="filter-pill" data-specialty-filter="dermatology">Dermatology</button>
+          <button class="filter-pill" data-specialty-filter="pediatrics">Pediatrics</button>
+          <button class="filter-pill" data-specialty-filter="orthopedics">Orthopedics</button>
+          <button class="filter-pill" data-specialty-filter="general">General Medicine</button>
+          <button class="filter-pill" data-specialty-filter="ophthalmology">Ophthalmology</button>
+          <button class="filter-pill" data-specialty-filter="dental">Dental Care</button>
+        </div>
+      </div>
+
+      <!-- Result Count Info -->
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-xs font-semibold text-muted" id="doctorResultCount">Loading doctors...</span>
+        <span class="text-xs text-muted"><i class="fa-solid fa-check-double text-teal mr-1"></i> All doctors verified & board certified</span>
+      </div>
+
+      <!-- Doctor Cards Grid -->
+      <div class="doctors-grid" id="doctorListContainer">
+        <!-- Rendered by Doctors.renderDoctorDirectory() -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================
+       VIEW: APPOINTMENT BOOKING (5-Step Wizard)
+       ======================================================== -->
+  <main class="app-view hidden" id="view_booking">
+    <div class="max-w-6xl p-6" id="bookingWizardContainer">
+      <div class="dashboard-welcome-banner">
+        <div>
+          <span class="section-tag">Appointment Booking</span>
+          <h1 class="welcome-title">Schedule Doctor Consultation</h1>
+          <p class="welcome-subtitle">Complete the 5-step intuitive booking process for in-clinic or telemedicine consultations.</p>
+        </div>
+        <div>
+          <button class="btn btn-secondary btn-sm" onclick="App.navigateTo('doctors')">
+            <i class="fa-solid fa-arrow-left"></i> Back to Doctor Directory
+          </button>
+        </div>
+      </div>
+
+      <!-- 5-Step Progress Indicators -->
+      <div class="wizard-progress-bar">
+        <div class="wizard-step-node active" id="wizardPillStep1">
+          <div class="node-circle">1</div>
+          <span class="node-label">Specialist</span>
+        </div>
+        <div class="wizard-step-node" id="wizardPillStep2">
+          <div class="node-circle">2</div>
+          <span class="node-label">Date</span>
+        </div>
+        <div class="wizard-step-node" id="wizardPillStep3">
+          <div class="node-circle">3</div>
+          <span class="node-label">Time Slot</span>
+        </div>
+        <div class="wizard-step-node" id="wizardPillStep4">
+          <div class="node-circle">4</div>
+          <span class="node-label">Symptoms</span>
+        </div>
+        <div class="wizard-step-node" id="wizardPillStep5">
+          <div class="node-circle">5</div>
+          <span class="node-label">Confirm</span>
+        </div>
+      </div>
+
+      <!-- STEP 1: Select Doctor -->
+      <div class="booking-step-card" id="bookingStep1">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="text-xl font-bold">Step 1: Select Your Doctor</h3>
+            <p class="text-xs text-muted">Choose the physician you would like to consult with.</p>
+          </div>
+          <span class="badge badge-primary">Step 1 of 5</span>
+        </div>
+        <div class="booking-doctor-selector-grid" id="bookingDoctorGrid">
+          <!-- Rendered by Booking.renderStep1Doctors() -->
+        </div>
+        <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-200">
+          <button class="btn btn-primary" data-booking-next>
+            Continue to Choose Date <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Choose Date -->
+      <div class="booking-step-card hidden" id="bookingStep2">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="text-xl font-bold">Step 2: Choose Appointment Date</h3>
+            <p class="text-xs text-muted">Select an upcoming consultation date. Past dates are automatically disabled.</p>
+          </div>
+          <span class="badge badge-primary">Step 2 of 5</span>
+        </div>
+
+        <div id="bookingSelectedDoctorBanner"></div>
+
+        <div class="form-group max-w-md mx-auto my-6">
+          <label for="bookingDateInput" class="form-label font-bold"><i class="fa-regular fa-calendar text-primary mr-1"></i> Consultation Date</label>
+          <input type="date" id="bookingDateInput" class="form-input text-base py-3" aria-label="Appointment date">
+          <span class="text-xs text-muted mt-2 block"><i class="fa-solid fa-circle-info text-teal"></i> Clinic is open Monday through Saturday with sanitized facilities.</span>
+        </div>
+
+        <div class="flex justify-between gap-3 mt-6 pt-4 border-t border-slate-200">
+          <button class="btn btn-secondary" data-booking-prev>
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </button>
+          <button class="btn btn-primary" data-booking-next>
+            Continue to Select Slot <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Choose Time Slot -->
+      <div class="booking-step-card hidden" id="bookingStep3">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="text-xl font-bold">Step 3: Choose Available Time Slot</h3>
+            <p class="text-xs text-muted">Select an available appointment slot. Booked slots are clearly labeled.</p>
+          </div>
+          <span class="badge badge-primary">Step 3 of 5</span>
+        </div>
+
+        <div class="slot-legend-bar flex gap-4 text-xs font-semibold mb-4 p-2 bg-slate-50 dark:bg-slate-800 rounded-lg">
+          <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-slate-300 inline-block"></span> Available</span>
+          <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-blue-600 inline-block"></span> Selected</span>
+          <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-400 inline-block"></span> Booked / Full</span>
+        </div>
+
+        <div id="bookingSlotsGrid">
+          <!-- Rendered by Booking.renderTimeSlots() -->
+        </div>
+
+        <div class="flex justify-between gap-3 mt-6 pt-4 border-t border-slate-200">
+          <button class="btn btn-secondary" data-booking-prev>
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </button>
+          <button class="btn btn-primary" data-booking-next>
+            Continue to Details <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Symptoms & Consultation Details -->
+      <div class="booking-step-card hidden" id="bookingStep4">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="text-xl font-bold">Step 4: Consultation Details</h3>
+            <p class="text-xs text-muted">Provide your visit reason and description for clinical preparation.</p>
+          </div>
+          <span class="badge badge-primary">Step 4 of 5</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="form-group">
+            <label for="bookingConsultType" class="form-label font-bold">Consultation Mode</label>
+            <select id="bookingConsultType" class="form-select">
+              <option value="In-Person Consultation">In-Person Consultation (Hospital Clinic)</option>
+              <option value="Video Consultation">Telehealth Video Consultation (Secure HD)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="bookingPaymentMode" class="form-label font-bold">Preferred Payment Method</label>
+            <div class="flex gap-4 mt-2">
+              <label class="flex items-center gap-2 cursor-pointer text-sm">
+                <input type="radio" name="bookingPayment" value="Pay at Clinic" checked>
+                <span>Pay at Clinic Desk</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer text-sm">
+                <input type="radio" name="bookingPayment" value="Paid Online">
+                <span>Credit / Insurance Online Demo</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group col-span-full">
+            <label for="bookingReason" class="form-label font-bold">Primary Reason for Visit *</label>
+            <input type="text" id="bookingReason" class="form-input" placeholder="e.g. Annual cardiac review, skin rash on arm, migraine follow-up" required>
+          </div>
+
+          <div class="form-group col-span-full">
+            <label for="bookingSymptoms" class="form-label font-bold">Symptoms & Medical History Notes (Optional)</label>
+            <textarea id="bookingSymptoms" rows="3" class="form-textarea" placeholder="Detail any duration, severity, prior medication, or known allergies for the attending doctor..."></textarea>
+          </div>
+        </div>
+
+        <div class="flex justify-between gap-3 mt-6 pt-4 border-t border-slate-200">
+          <button class="btn btn-secondary" data-booking-prev>
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </button>
+          <button class="btn btn-primary" data-booking-next>
+            Review Summary <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 5: Review & Final Confirmation -->
+      <div class="booking-step-card hidden" id="bookingStep5">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="text-xl font-bold">Step 5: Review & Confirm Booking</h3>
+            <p class="text-xs text-muted">Verify all details before generating your appointment confirmation slip.</p>
+          </div>
+          <span class="badge badge-success">Final Review</span>
+        </div>
+
+        <div id="bookingReviewSummary">
+          <!-- Rendered by Booking.renderReviewSummary() -->
+        </div>
+
+        <div class="flex justify-between gap-3 mt-6 pt-4 border-t border-slate-200">
+          <button class="btn btn-secondary" data-booking-prev>
+            <i class="fa-solid fa-arrow-left"></i> Edit Details
+          </button>
+          <button class="btn btn-primary btn-lg" id="confirmBookingBtn">
+            <i class="fa-solid fa-check-circle"></i> Confirm & Book Appointment
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================
+       VIEW: PATIENT DASHBOARD (Overview)
+       ======================================================== -->
+  <main class="app-view hidden" id="view_dashboard">
+    <div class="dashboard-shell">
+      <!-- Collapsible Dashboard Sidebar -->
+      <aside class="dashboard-sidebar" id="dashboardSidebar">
+        <div class="sidebar-user-card">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="Avatar" class="sidebar-avatar current-user-avatar">
+          <div class="sidebar-user-info">
+            <h4 class="current-user-name">Alex Morgan</h4>
+            <span class="current-user-role">Patient ID: #pat-101</span>
+          </div>
+        </div>
+
+        <span class="sidebar-nav-section-title">Patient Portal</span>
+        <ul class="sidebar-nav-list">
+          <li><a href="#dashboard" class="sidebar-nav-item active" data-nav-target="dashboard"><i class="fa-solid fa-chart-pie"></i> Overview</a></li>
+          <li><a href="#appointments" class="sidebar-nav-item" data-nav-target="appointments"><i class="fa-regular fa-calendar-check"></i> My Appointments</a></li>
+          <li><a href="#booking" class="sidebar-nav-item" data-nav-target="booking"><i class="fa-regular fa-calendar-plus"></i> Book Consultation</a></li>
+          <li><a href="#records" class="sidebar-nav-item" data-nav-target="records"><i class="fa-solid fa-file-waveform"></i> Medical Records</a></li>
+          <li><a href="#doctors" class="sidebar-nav-item" data-nav-target="doctors"><i class="fa-solid fa-user-doctor"></i> Find Doctors</a></li>
+          <li><a href="#profile" class="sidebar-nav-item" data-nav-target="profile"><i class="fa-regular fa-id-badge"></i> Health Profile</a></li>
+          <li class="nav-admin-only hidden"><a href="#admin" class="sidebar-nav-item" data-nav-target="admin"><i class="fa-solid fa-shield-halved text-teal"></i> Admin Panel</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <button class="sidebar-nav-item text-danger w-full logout-btn">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Dashboard Content -->
+      <section class="dashboard-main-content">
+        <div class="dashboard-welcome-banner">
+          <div>
+            <h1 class="welcome-title">Welcome back, <span id="dashboardWelcomePatientName">Alex</span>! 👋</h1>
+            <p class="welcome-subtitle" id="dashboardCurrentDate">Today is Sunday, October 11, 2026</p>
+          </div>
+          <div class="flex gap-2">
+            <button class="btn btn-primary" onclick="Booking.startNew()">
+              <i class="fa-solid fa-plus"></i> New Appointment
+            </button>
+            <button class="btn btn-outline-secondary" onclick="App.showModal('uploadDocumentModal')">
+              <i class="fa-solid fa-upload"></i> Upload Report
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Key Statistics Cards -->
+        <div class="metrics-row-grid">
+          <div class="metric-stat-card">
+            <div class="metric-icon-box icon-blue">
+              <i class="fa-regular fa-calendar-check"></i>
+            </div>
+            <div>
+              <div class="metric-val" id="statTotalAppointments">0</div>
+              <div class="metric-lbl">Total Appointments</div>
+            </div>
+          </div>
+
+          <div class="metric-stat-card">
+            <div class="metric-icon-box icon-emerald">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div>
+              <div class="metric-val" id="statUpcomingAppointments">0</div>
+              <div class="metric-lbl">Upcoming Visits</div>
+            </div>
+          </div>
+
+          <div class="metric-stat-card">
+            <div class="metric-icon-box icon-teal">
+              <i class="fa-solid fa-file-waveform"></i>
+            </div>
+            <div>
+              <div class="metric-val" id="statMedicalRecords">0</div>
+              <div class="metric-lbl">Medical Records</div>
+            </div>
+          </div>
+
+          <div class="metric-stat-card">
+            <div class="metric-icon-box icon-purple">
+              <i class="fa-solid fa-pills"></i>
+            </div>
+            <div>
+              <div class="metric-val" id="statActivePrescriptions">0</div>
+              <div class="metric-lbl">Active Prescriptions</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Dashboard 2-Column Section -->
+        <div class="dashboard-grid-layout">
+          <!-- Left Column: Upcoming Appointment Hero -->
+          <div>
+            <h3 class="text-base font-bold mb-3 flex items-center gap-2">
+              <i class="fa-solid fa-bell text-primary"></i> Next Appointment Tracker
+            </h3>
+            <div id="dashboardUpcomingAppCard">
+              <!-- Rendered by Dashboard.renderDashboard() -->
+            </div>
+
+            <!-- Recent Activity Timeline -->
+            <div class="mt-6 bg-surface p-4 rounded-xl border border-border" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-xl);">
+              <h3 class="text-base font-bold mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-teal"></i> Recent Clinical Activity
+              </h3>
+              <div id="dashboardActivityTimeline"></div>
+            </div>
+          </div>
+
+          <!-- Right Column: Quick Actions & Recent Prescriptions -->
+          <div>
+            <div class="quick-actions-card">
+              <h3 class="text-base font-bold flex items-center gap-2">
+                <i class="fa-solid fa-bolt text-amber"></i> Quick Actions
+              </h3>
+              <div class="quick-action-buttons-grid">
+                <div class="quick-action-tile" onclick="Booking.startNew()">
+                  <i class="fa-solid fa-calendar-plus text-primary"></i>
+                  <span>Book Visit</span>
+                </div>
+                <div class="quick-action-tile" onclick="App.navigateTo('records')">
+                  <i class="fa-solid fa-folder-open text-teal"></i>
+                  <span>View Records</span>
+                </div>
+                <div class="quick-action-tile" onclick="App.navigateTo('doctors')">
+                  <i class="fa-solid fa-user-doctor text-emerald"></i>
+                  <span>Find Doctors</span>
+                </div>
+                <div class="quick-action-tile" onclick="App.showModal('uploadDocumentModal')">
+                  <i class="fa-solid fa-cloud-arrow-up text-purple-500"></i>
+                  <span>Upload Labs</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 bg-surface p-4 rounded-xl border border-border" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-xl);">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-base font-bold flex items-center gap-2">
+                  <i class="fa-solid fa-prescription text-teal"></i> Recent Prescriptions (Rx)
+                </h3>
+                <a href="#records" class="text-xs text-primary font-semibold" data-nav-target="records">View All</a>
+              </div>
+              <div id="dashboardRecentRxList"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ========================================================
+       VIEW: MY APPOINTMENTS
+       ======================================================== -->
+  <main class="app-view hidden" id="view_appointments">
+    <div class="max-w-7xl p-6">
+      <div class="dashboard-welcome-banner">
+        <div>
+          <span class="section-tag">Patient Portal</span>
+          <h1 class="welcome-title">My Appointments</h1>
+          <p class="welcome-subtitle">Review scheduled visits, reschedule consultation slots, or view historical records.</p>
+        </div>
+        <div>
+          <button class="btn btn-primary" onclick="Booking.startNew()">
+            <i class="fa-solid fa-calendar-plus"></i> Book New Appointment
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Tabs with Live Badges -->
+      <div class="tab-pills-row" id="appointmentTabsList">
+        <button class="tab-pill active" data-app-tab="all">
+          All Visits <span class="badge badge-subtle ml-1" id="countTabAll">0</span>
+        </button>
+        <button class="tab-pill" data-app-tab="Upcoming">
+          Upcoming <span class="badge badge-success ml-1" id="countTabUpcoming">0</span>
+        </button>
+        <button class="tab-pill" data-app-tab="Completed">
+          Completed <span class="badge badge-info ml-1" id="countTabCompleted">0</span>
+        </button>
+        <button class="tab-pill" data-app-tab="Cancelled">
+          Cancelled <span class="badge badge-danger ml-1" id="countTabCancelled">0</span>
+        </button>
+      </div>
+
+      <!-- Appointments List Container -->
+      <div id="appointmentsListContainer">
+        <!-- Rendered by Appointments.renderAppointments() -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================
+       VIEW: MEDICAL RECORDS & LAB REPORTS
+       ======================================================== -->
+  <main class="app-view hidden" id="view_records">
+    <div class="max-w-7xl p-6">
+      <div class="dashboard-welcome-banner">
+        <div>
+          <span class="section-tag">Electronic Health Record (EHR)</span>
+          <h1 class="welcome-title">Medical Records & Prescriptions</h1>
+          <p class="welcome-subtitle">Access your complete consultation history, diagnostic lab results, recorded vitals, and pharmacy prescriptions.</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-outline-primary" onclick="App.showModal('uploadDocumentModal')">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Document
+          </button>
+          <button class="btn btn-secondary" onclick="window.print()">
+            <i class="fa-solid fa-print"></i> Print Records Summary
+          </button>
+        </div>
+      </div>
+
+      <!-- Records Controls & Search Bar -->
+      <div class="directory-controls-bar">
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="recordSearchInput" class="form-input" placeholder="Search records by title, doctor name, diagnosis, or symptom..." aria-label="Search records">
+          </div>
+          <div class="flex items-center gap-2">
+            <label for="recordSpecialtyFilter" class="text-xs font-semibold text-muted whitespace-nowrap">Filter Department:</label>
+            <select id="recordSpecialtyFilter" class="form-select text-sm py-2" style="width: auto;">
+              <option value="all">All Departments</option>
+              <option value="General Medicine">General Medicine</option>
+              <option value="Dermatology">Dermatology</option>
+              <option value="Orthopedics">Orthopedics</option>
+              <option value="Ophthalmology">Ophthalmology</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two Sections: Diagnostic Consultation Records & Active Prescriptions -->
+      <div class="mt-4">
+        <h2 class="text-xl font-bold mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-file-waveform text-primary"></i> Consultation Summaries & Lab Reports
+        </h2>
+        <div id="recordsListContainer">
+          <!-- Rendered by Records.renderRecords() -->
+        </div>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-slate-200">
+        <h2 class="text-xl font-bold mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-prescription-bottle-medical text-teal"></i> Official Medical Prescriptions (Rx)
+        </h2>
+        <div id="prescriptionsListContainer">
+          <!-- Rendered by Records.renderPrescriptionsTab() -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================
+       VIEW: PATIENT HEALTH PROFILE
+       ======================================================== -->
+  <main class="app-view hidden" id="view_profile">
+    <div class="max-w-6xl p-6">
+      <div class="dashboard-welcome-banner">
+        <div>
+          <span class="section-tag">Demographics & Clinical Data</span>
+          <h1 class="welcome-title">Patient Medical Profile</h1>
+          <p class="welcome-subtitle">Maintain updated emergency contacts, chronic conditions, and personal health demographics.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Profile Summary Card -->
+        <div class="bg-surface p-6 rounded-xl border border-border text-center shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-xl);">
+          <div class="relative w-28 h-28 mx-auto mb-4">
+            <img id="profileAvatarPreview" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300" alt="Avatar" class="w-28 h-28 rounded-full object-cover border-4 border-primary">
+            <span class="absolute bottom-1 right-1 w-6 h-6 bg-emerald text-white rounded-full flex items-center justify-center text-xs" style="background: #10B981; color: white;" title="Active patient record">
+              <i class="fa-solid fa-check"></i>
+            </span>
+          </div>
+
+          <h3 class="text-xl font-bold" id="profileCardPatientName">Alex Morgan</h3>
+          <p class="text-xs text-muted font-mono" id="profileCardPatientId">Patient ID: #pat-101</p>
+          <div class="mt-3 flex justify-center gap-2">
+            <span class="badge badge-primary">Blood Group: <strong id="profileCardBloodGroup">O+</strong></span>
+            <span class="badge badge-teal">Verified Patient</span>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-200 text-left text-xs text-muted leading-relaxed">
+            <p><i class="fa-solid fa-shield-halved text-primary mr-1"></i> Data protected by hospital data encryption protocols.</p>
+          </div>
+        </div>
+
+        <!-- Editable Profile Form -->
+        <div class="md:col-span-2 bg-surface p-6 rounded-xl border border-border shadow-sm" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-xl);">
+          <form id="patientProfileForm">
+            <h3 class="text-lg font-bold mb-4 pb-2 border-b border-slate-200"><i class="fa-solid fa-user-pen text-primary"></i> Personal Demographics</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="form-group">
+                <label for="profileFullName" class="form-label">Full Name *</label>
+                <input type="text" id="profileFullName" class="form-input" required>
+              </div>
+
+              <div class="form-group">
+                <label for="profileEmail" class="form-label">Email Address *</label>
+                <input type="email" id="profileEmail" class="form-input" required>
+              </div>
+
+              <div class="form-group">
+                <label for="profilePhone" class="form-label">Phone Number *</label>
+                <input type="tel" id="profilePhone" class="form-input" required>
+              </div>
+
+              <div class="form-group">
+                <label for="profileDob" class="form-label">Date of Birth</label>
+                <input type="date" id="profileDob" class="form-input">
+              </div>
+
+              <div class="form-group">
+                <label for="profileGender" class="form-label">Gender</label>
+                <select id="profileGender" class="form-select">
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other / Non-Binary</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="profileBloodGroup" class="form-label">Blood Group</label>
+                <select id="profileBloodGroup" class="form-select">
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="profileHeight" class="form-label">Height</label>
+                <input type="text" id="profileHeight" class="form-input" placeholder="e.g. 178 cm">
+              </div>
+
+              <div class="form-group">
+                <label for="profileWeight" class="form-label">Weight</label>
+                <input type="text" id="profileWeight" class="form-input" placeholder="e.g. 72 kg">
+              </div>
+
+              <div class="form-group col-span-full">
+                <label for="profileAddress" class="form-label">Residential Address</label>
+                <input type="text" id="profileAddress" class="form-input" placeholder="Street, Apartment, City, State, ZIP">
+              </div>
+            </div>
+
+            <h3 class="text-lg font-bold my-4 pb-2 border-b border-slate-200"><i class="fa-solid fa-phone-flip text-rose-500"></i> Emergency Contact</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="form-group">
+                <label for="profileEmergencyName" class="form-label">Contact Person Name</label>
+                <input type="text" id="profileEmergencyName" class="form-input">
+              </div>
+
+              <div class="form-group">
+                <label for="profileEmergencyPhone" class="form-label">Emergency Phone Number</label>
+                <input type="tel" id="profileEmergencyPhone" class="form-input">
+              </div>
+            </div>
+
+            <h3 class="text-lg font-bold my-4 pb-2 border-b border-slate-200"><i class="fa-solid fa-shield-virus text-amber"></i> Allergies & Insurance</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="form-group">
+                <label for="profileAllergies" class="form-label">Known Allergies</label>
+                <input type="text" id="profileAllergies" class="form-input" placeholder="e.g. Penicillin, Peanuts, Pollen">
+              </div>
+
+              <div class="form-group">
+                <label for="profileInsurance" class="form-label">Insurance Provider & Policy #</label>
+                <input type="text" id="profileInsurance" class="form-input" placeholder="e.g. BlueCross Health Plus #98214">
+              </div>
+            </div>
+
+            <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-200">
+              <button type="button" class="btn btn-secondary" id="cancelProfileEditBtn">Cancel</button>
+              <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Profile</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================
+       VIEW: AUTHENTICATION (Login / Registration Split-Screen)
+       ======================================================== -->
+  <main class="app-view hidden" id="view_auth">
+    <div class="auth-split-wrapper">
+      <!-- Left Visual Pane -->
+      <div class="auth-visual-pane">
+        <a href="#home" class="brand-logo" style="color: #FFFFFF;" data-nav-target="home">
+          <div class="brand-icon-wrapper" style="background: rgba(255, 255, 255, 0.2);">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
+          <span>MediCare<span style="color: #5EEAD4;">+</span></span>
+        </a>
+
+        <div>
+          <span class="badge" style="background: rgba(255, 255, 255, 0.2); color: #FFFFFF;">Hospital Grade Security</span>
+          <h2>Empowering Your Health Journey with Next-Gen Digital Healthcare</h2>
+          <p class="mt-3 text-sm opacity-90 leading-relaxed">Access board-certified medical specialists, real-time diagnostic appointment slots, and encrypted medical records anywhere, anytime.</p>
+        </div>
+
+        <div class="text-xs opacity-75">
+          <span>&copy; 2026 MediCare+ Health Systems. HIPAA & HL7 Standard Compliant.</span>
+        </div>
+      </div>
+
+      <!-- Right Form Pane -->
+      <div class="auth-form-pane">
+        <!-- Quick Demo Accounts Shortcut Box -->
+        <div class="demo-login-shortcut-box">
+          <span class="text-xs font-bold text-muted block mb-2"><i class="fa-solid fa-wand-magic-sparkles text-amber"></i> Capstone Evaluator Quick Logins:</span>
+          <div class="flex gap-2">
+            <button class="btn btn-primary btn-xs flex-1" data-demo-login="patient">
+              <i class="fa-solid fa-user"></i> Demo Patient
+            </button>
+            <button class="btn btn-teal btn-xs flex-1" data-demo-login="admin">
+              <i class="fa-solid fa-user-shield"></i> Demo Admin
+            </button>
+          </div>
+        </div>
+
+        <!-- Toggle between Login and Register -->
+        <div class="auth-tabs-toggle">
+          <button class="auth-toggle-btn active" id="authTabLogin">Sign In</button>
+          <button class="auth-toggle-btn" id="authTabRegister">Create Account</button>
+        </div>
+
+        <!-- LOGIN SECTION -->
+        <div id="loginSection">
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="loginRoleSelect" class="form-label">Login As</label>
+              <select id="loginRoleSelect" class="form-select">
+                <option value="patient">Patient Portal</option>
+                <option value="admin">Hospital Administrator</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="loginEmail" class="form-label">Email Address *</label>
+              <input type="email" id="loginEmail" class="form-input" placeholder="e.g. alex.morgan@example.com" value="alex.morgan@example.com" required>
+              <span class="field-error-msg hidden"></span>
+            </div>
+
+            <div class="form-group">
+              <div class="flex justify-between items-center mb-1">
+                <label for="loginPassword" class="form-label mb-0">Password *</label>
+                <a href="#" id="forgotPasswordLink" class="text-xs text-primary font-semibold">Forgot Password?</a>
+              </div>
+              <div class="relative flex items-center">
+                <input type="password" id="loginPassword" class="form-input pr-10" value="Password123!" required>
+                <button type="button" class="toggle-password-btn absolute right-3 text-muted" data-target="loginPassword" style="background: none; border: none; cursor: pointer;">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+              <span class="field-error-msg hidden"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full mt-4">
+              <i class="fa-solid fa-right-to-bracket"></i> Sign In to Portal
+            </button>
+          </form>
+        </div>
+
+        <!-- REGISTER SECTION -->
+        <div id="registerSection" class="hidden">
+          <form id="registerForm">
+            <div class="form-group">
+              <label for="regName" class="form-label">Full Name *</label>
+              <input type="text" id="regName" class="form-input" placeholder="First and Last name" required>
+              <span class="field-error-msg hidden"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="regEmail" class="form-label">Email Address *</label>
+              <input type="email" id="regEmail" class="form-input" placeholder="name@example.com" required>
+              <span class="field-error-msg hidden"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="regPhone" class="form-label">Contact Phone Number *</label>
+              <input type="tel" id="regPhone" class="form-input" placeholder="+1 (555) 000-0000" required>
+              <span class="field-error-msg hidden"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="regPassword" class="form-label">Password *</label>
+              <div class="relative flex items-center">
+                <input type="password" id="regPassword" class="form-input pr-10" placeholder="Minimum 6 characters" required>
+                <button type="button" class="toggle-password-btn absolute right-3 text-muted" data-target="regPassword" style="background: none; border: none; cursor: pointer;">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+              <span class="field-error-msg hidden"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="regConfirmPassword" class="form-label">Confirm Password *</label>
+              <input type="password" id="regConfirmPassword" class="form-input" placeholder="Re-enter password" required>
+              <span class="field-error-msg hidden"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="flex items-center gap-2 cursor-pointer text-xs">
+                <input type="checkbox" id="regTerms" checked>
+                <span>I agree to the MediCare+ Terms of Service & HIPAA Privacy Policy.</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-teal w-full mt-2">
+              <i class="fa-solid fa-user-plus"></i> Create Patient Account
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================
+       VIEW: ADMIN DASHBOARD
+       ======================================================== -->
+  <main class="app-view hidden" id="view_admin">
+    <div class="max-w-7xl p-6">
+      <div class="dashboard-welcome-banner">
+        <div>
+          <span class="badge badge-teal mb-1"><i class="fa-solid fa-shield-halved"></i> Authorized Medical Administration</span>
+          <h1 class="welcome-title">Hospital Executive Operations</h1>
+          <p class="welcome-subtitle">Oversee medical staff registries, monitor real-time appointments, and manage clinic patient cohorts.</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-primary" onclick="Admin.openAddDoctorModal()">
+            <i class="fa-solid fa-user-plus"></i> Add Specialist Doctor
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="Auth.loginDemo('patient')">
+            <i class="fa-solid fa-repeat"></i> Switch to Patient View
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Subnavigation Tabs -->
+      <div class="admin-subnav-pills" id="adminSubNav">
+        <button class="admin-tab-btn active" data-admin-tab="overview"><i class="fa-solid fa-chart-line"></i> Operations Overview</button>
+        <button class="admin-tab-btn" data-admin-tab="doctors"><i class="fa-solid fa-user-doctor"></i> Doctor Management</button>
+        <button class="admin-tab-btn" data-admin-tab="appointments"><i class="fa-regular fa-calendar-check"></i> All Appointments</button>
+        <button class="admin-tab-btn" data-admin-tab="patients"><i class="fa-solid fa-users"></i> Patient Directory</button>
+      </div>
+
+      <!-- TAB 1: Admin Overview -->
+      <div class="admin-tab-panel" id="adminPanel_overview">
+        <div class="metrics-row-grid">
+          <div class="metric-stat-card">
+            <div class="metric-icon-box icon-blue">
+              <i class="fa-solid fa-user-doctor"></i>
+            </div>
+            <div>
+              <div class="metric-val" id="adminStatDoctorsCount">0</div>
+              <div class="metric-lbl">Registered Specialists</div>
+            </div>
+          </div>
+          <div class="metric-stat-card">
+            <div class="metric-icon-box icon-teal">
+              <i class="fa-regular fa-calendar-check"></i>
+            </div>
+            <div>
+              <div class="metric-val" id="adminStatAppointmentsCount">0</div>
+              <div class="metric-lbl">Total Bookings</div>
+            </div>
+          </div>
+          <div class="metric-stat-card">
+            <div class="metric-icon-box icon-emerald">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div>
+              <div class="metric-val" id="adminStatUpcomingCount">0</div>
+              <div class="metric-lbl">Pending / Upcoming</div>
+            </div>
+          </div>
+          <div class="metric-stat-card">
+            <div class="metric-icon-box icon-purple">
+              <i class="fa-solid fa-file-waveform"></i>
+            </div>
+            <div>
+              <div class="metric-val" id="adminStatRecordsCount">0</div>
+              <div class="metric-lbl">Clinical EHR Records</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 p-6 bg-surface rounded-xl border border-border" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-xl);">
+          <h3 class="text-lg font-bold mb-2">Hospital Operations Summary</h3>
+          <p class="text-sm text-muted">MediCare+ outpatient centers are running at 94% resource utilization. All cardiology, neurology, and general medicine rooms are staffed with board certified specialists.</p>
+        </div>
+      </div>
+
+      <!-- TAB 2: Doctor Management -->
+      <div class="admin-tab-panel hidden" id="adminPanel_doctors">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-lg font-bold">Medical Staff Registry</h3>
+          <button class="btn btn-primary btn-sm" onclick="Admin.openAddDoctorModal()">
+            <i class="fa-solid fa-plus"></i> Add New Doctor
+          </button>
+        </div>
+        <div class="data-table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Doctor</th>
+                <th>Specialty</th>
+                <th>Experience</th>
+                <th>Fee</th>
+                <th>Availability</th>
+                <th class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminDoctorListTableBody">
+              <!-- Rendered by Admin.renderDoctorManagement() -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: All Appointments -->
+      <div class="admin-tab-panel hidden" id="adminPanel_appointments">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-lg font-bold">Comprehensive Appointments Registry</h3>
+          <div class="flex items-center gap-2">
+            <label for="adminAppStatusFilter" class="text-xs font-semibold text-muted">Status:</label>
+            <select id="adminAppStatusFilter" class="form-select text-xs py-1" style="width: auto;">
+              <option value="all">All Statuses</option>
+              <option value="Upcoming">Upcoming Only</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+        <div class="data-table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Appt ID</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Date & Slot</th>
+                <th>Status</th>
+                <th>Fee</th>
+                <th class="text-right">Admin Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminAppointmentsTableBody">
+              <!-- Rendered by Admin.renderAdminAppointments() -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 4: Patient Directory -->
+      <div class="admin-tab-panel hidden" id="adminPanel_patients">
+        <h3 class="text-lg font-bold mb-3">Registered Patient Cohort</h3>
+        <div class="data-table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Patient Name</th>
+                <th>Contact</th>
+                <th>Demographics</th>
+                <th>Emergency Contact</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="adminPatientListTableBody">
+              <!-- Rendered by Admin.renderPatientManagement() -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================
+       VIEW: ABOUT & CONTACT
+       ======================================================== -->
+  <main class="app-view hidden" id="view_about">
+    <div class="max-w-6xl p-6">
+      <div class="section-header-centered">
+        <span class="section-tag">About MediCare+</span>
+        <h1 class="section-heading-main">Leading Healthcare Technology for Modern Clinical Excellence</h1>
+        <p class="section-subtext">Founded with the core mission of eliminating barriers between patients and specialist doctors through intuitive digital workflows and zero-friction healthcare access.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center my-8">
+        <div>
+          <h3 class="text-2xl font-bold mb-3 text-navy">Pioneering Patient-Centric Medicine</h3>
+          <p class="text-muted leading-relaxed mb-4">
+            MediCare+ combines state-of-the-art medical technology with compassionate human touch. Our digital ecosystem provides patients with immediate transparency into clinician schedules, diagnostic lab results, and personalized treatment plans.
+          </p>
+          <ul class="space-y-2 text-sm text-navy">
+            <li><i class="fa-solid fa-circle-check text-emerald mr-2"></i> Over 50+ Harvard, Hopkins, and Oxford trained medical specialists.</li>
+            <li><i class="fa-solid fa-circle-check text-emerald mr-2"></i> Fully integrated Electronic Health Record (EHR) synchronization.</li>
+            <li><i class="fa-solid fa-circle-check text-emerald mr-2"></i> Multi-step instant booking with zero phone wait-times.</li>
+          </ul>
+        </div>
+        <div>
+          <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=700" alt="Hospital Facility" class="rounded-2xl shadow-lg border-4 border-surface" style="border: 4px solid var(--bg-surface);">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <main class="app-view hidden" id="view_contact">
+    <div class="max-w-6xl p-6">
+      <div class="section-header-centered">
+        <span class="section-tag">Reach Out</span>
+        <h1 class="section-heading-main">Contact MediCare+ Health Center</h1>
+        <p class="section-subtext">Our patient experience team and clinical triage desks are available 24/7 to answer your inquiries.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-surface p-6 rounded-xl border border-border" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-xl);">
+          <h3 class="text-xl font-bold mb-4">Send Us a Direct Message</h3>
+          <form onsubmit="event.preventDefault(); App.showToast('Thank you! Your message has been sent to patient support.', 'success'); this.reset();">
+            <div class="form-group">
+              <label class="form-label">Full Name *</label>
+              <input type="text" class="form-input" required placeholder="Your name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address *</label>
+              <input type="email" class="form-input" required placeholder="Your email">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <input type="text" class="form-input" placeholder="Appointment query, billing, or feedback">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Message *</label>
+              <textarea class="form-textarea" rows="4" required placeholder="How can our clinical team assist you?"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-full">Send Message</button>
+          </form>
+        </div>
+
+        <div class="space-y-4">
+          <div class="p-6 bg-surface rounded-xl border border-border" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-xl);">
+            <h4 class="font-bold text-lg mb-2"><i class="fa-solid fa-location-dot text-primary mr-2"></i> Main Medical Pavilion</h4>
+            <p class="text-sm text-muted">500 Healthcare Boulevard, Suite 100<br>Medical District, IL 60611</p>
+          </div>
+          <div class="p-6 bg-surface rounded-xl border border-border" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-xl);">
+            <h4 class="font-bold text-lg mb-2"><i class="fa-solid fa-phone text-teal mr-2"></i> Patient Helpline & Appointments</h4>
+            <p class="text-sm text-muted">Toll-free: +1 (800) 555-CARE (2273)<br>International: +1 (312) 555-0199</p>
+          </div>
+          <div class="p-6 bg-surface rounded-xl border border-border" style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-xl);">
+            <h4 class="font-bold text-lg mb-2"><i class="fa-solid fa-clock text-amber mr-2"></i> Operating Hours</h4>
+            <p class="text-sm text-muted">Outpatient Clinic: Mon - Sat: 8:00 AM - 6:00 PM<br>Emergency & Trauma Care: 24/7 / 365 Days</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================
+       GLOBAL MODALS (Doctor Profile, Details, Rx, Upload, Confirm)
+       ======================================================== -->
+
+  <!-- 1. Doctor Profile Modal -->
+  <div class="modal-overlay" id="doctorProfileModal" role="dialog" aria-modal="true" aria-labelledby="doctorProfileModalTitle">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <h3 class="modal-title" id="doctorProfileModalTitle"><i class="fa-solid fa-user-doctor text-primary"></i> Doctor Profile & Qualifications</h3>
+        <button class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body" id="doctorProfileModalBody">
+        <!-- Rendered by Doctors.viewProfile() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Appointment Detail Modal -->
+  <div class="modal-overlay" id="appointmentDetailModal" role="dialog" aria-modal="true" aria-labelledby="appointmentDetailTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="appointmentDetailTitle"><i class="fa-regular fa-calendar-check text-primary"></i> Appointment Overview</h3>
+        <button class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body" id="appointmentDetailModalBody">
+        <!-- Rendered by Appointments.viewDetails() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Reschedule Appointment Modal -->
+  <div class="modal-overlay" id="rescheduleAppointmentModal" role="dialog" aria-modal="true" aria-labelledby="rescheduleModalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="rescheduleModalTitle"><i class="fa-solid fa-arrows-rotate text-primary"></i> Reschedule Appointment</h3>
+        <button class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="rescheduleDoctorInfo" class="mb-4"></div>
+        <form id="rescheduleAppointmentForm">
+          <div class="form-group">
+            <label for="rescheduleDateInput" class="form-label font-bold">New Consultation Date *</label>
+            <input type="date" id="rescheduleDateInput" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="rescheduleTimeSelect" class="form-label font-bold">New Time Slot *</label>
+            <select id="rescheduleTimeSelect" class="form-select" required>
+              <option value="09:30 AM">09:30 AM (Morning)</option>
+              <option value="10:30 AM">10:30 AM (Morning)</option>
+              <option value="11:30 AM">11:30 AM (Morning)</option>
+              <option value="02:00 PM">02:00 PM (Afternoon)</option>
+              <option value="03:30 PM">03:30 PM (Afternoon)</option>
+              <option value="04:30 PM">04:30 PM (Evening)</option>
+            </select>
+          </div>
+          <div class="flex justify-end gap-3 mt-4 pt-3 border-t border-slate-200">
+            <button type="button" class="btn btn-secondary" data-modal-close>Close</button>
+            <button type="submit" class="btn btn-primary">Confirm New Schedule</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Cancel Appointment Confirmation Modal -->
+  <div class="modal-overlay" id="cancelAppointmentModal" role="dialog" aria-modal="true" aria-labelledby="cancelModalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title text-danger" id="cancelModalTitle"><i class="fa-solid fa-triangle-exclamation"></i> Cancel Consultation</h3>
+        <button class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="cancelAppointmentInfo"></div>
+        <form id="cancelAppointmentForm" class="mt-4">
+          <div class="form-group">
+            <label for="cancelReasonInput" class="form-label">Reason for Cancellation (Optional)</label>
+            <textarea id="cancelReasonInput" rows="2" class="form-textarea" placeholder="e.g. Schedule conflict, feeling better, illness resolved..."></textarea>
+          </div>
+          <div class="flex justify-end gap-3 mt-4">
+            <button type="button" class="btn btn-secondary" data-modal-close>Keep Appointment</button>
+            <button type="submit" class="btn btn-outline-danger">Confirm Cancellation</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Booking Success Confirmation Receipt Modal -->
+  <div class="modal-overlay" id="bookingSuccessModal" role="dialog" aria-modal="true" aria-labelledby="bookingSuccessModalTitle">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-body" id="bookingSuccessModalContent">
+        <!-- Rendered by Booking.renderSuccessReceipt() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Medical Record Detail Modal -->
+  <div class="modal-overlay" id="recordDetailModal" role="dialog" aria-modal="true" aria-labelledby="recordDetailModalTitle">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <h3 class="modal-title" id="recordDetailModalTitle"><i class="fa-solid fa-file-waveform text-primary"></i> Clinical Consultation Summary</h3>
+        <button class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body" id="recordDetailModalBody">
+        <!-- Rendered by Records.viewRecordDetail() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Official Prescription Sheet Modal (Printable) -->
+  <div class="modal-overlay" id="prescriptionDetailModal" role="dialog" aria-modal="true" aria-labelledby="rxModalTitle">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header no-print">
+        <h3 class="modal-title" id="rxModalTitle"><i class="fa-solid fa-prescription text-teal"></i> Official Medical Prescription (Rx)</h3>
+        <button class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body" id="prescriptionDetailModalBody">
+        <!-- Rendered by Records.viewPrescription() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Upload Document Modal -->
+  <div class="modal-overlay" id="uploadDocumentModal" role="dialog" aria-modal="true" aria-labelledby="uploadDocModalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="uploadDocModalTitle"><i class="fa-solid fa-cloud-arrow-up text-primary"></i> Upload Test Report / Document</h3>
+        <button class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="uploadDocumentForm">
+          <div class="form-group">
+            <label for="uploadDocTitle" class="form-label">Report / Document Title *</label>
+            <input type="text" id="uploadDocTitle" class="form-input" placeholder="e.g. Complete Blood Count (CBC) or MRI Scan" required>
+          </div>
+          <div class="form-group">
+            <label for="uploadDocSpecialty" class="form-label">Department / Category</label>
+            <select id="uploadDocSpecialty" class="form-select">
+              <option value="General Medicine">General Medicine / Internal</option>
+              <option value="Cardiology">Cardiology / Vascular</option>
+              <option value="Dermatology">Dermatology</option>
+              <option value="Orthopedics">Orthopedics / Imaging</option>
+              <option value="Neurology">Neurology</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="uploadDocDate" class="form-label">Report Date</label>
+            <input type="date" id="uploadDocDate" class="form-input">
+          </div>
+          <div class="form-group">
+            <label for="uploadDocFile" class="form-label">Choose Document File (PDF, PNG, JPG)</label>
+            <input type="file" id="uploadDocFile" class="form-input py-2" accept=".pdf,.png,.jpg,.jpeg">
+          </div>
+          <div class="form-group">
+            <label for="uploadDocNotes" class="form-label">Clinical Notes / Laboratory Findings</label>
+            <textarea id="uploadDocNotes" rows="2" class="form-textarea" placeholder="Enter test result summary or doctor notes..."></textarea>
+          </div>
+          <div class="flex justify-end gap-3 mt-4 pt-3 border-t border-slate-200">
+            <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cloud-arrow-up"></i> Upload & Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. Admin Add/Edit Doctor Modal -->
+  <div class="modal-overlay" id="adminDoctorModal" role="dialog" aria-modal="true" aria-labelledby="adminDoctorModalTitle">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <h3 class="modal-title" id="adminDoctorModalTitle">Add Hospital Specialist</h3>
+        <button class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="adminAddDoctorForm">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="form-group">
+              <label for="docFormName" class="form-label">Doctor Full Name *</label>
+              <input type="text" id="docFormName" class="form-input" placeholder="e.g. Dr. Arthur Vance" required>
+            </div>
+            <div class="form-group">
+              <label for="docFormSpecialty" class="form-label">Specialty *</label>
+              <select id="docFormSpecialty" class="form-select" required>
+                <option value="cardiology">Cardiology</option>
+                <option value="neurology">Neurology</option>
+                <option value="dermatology">Dermatology</option>
+                <option value="pediatrics">Pediatrics</option>
+                <option value="orthopedics">Orthopedics</option>
+                <option value="general">General Medicine</option>
+                <option value="ophthalmology">Ophthalmology</option>
+                <option value="dental">Dental Care</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="docFormQualification" class="form-label">Qualifications & Degrees *</label>
+              <input type="text" id="docFormQualification" class="form-input" placeholder="e.g. MD, FACC, Harvard Medical School" required>
+            </div>
+            <div class="form-group">
+              <label for="docFormExperience" class="form-label">Years of Experience</label>
+              <input type="number" id="docFormExperience" class="form-input" value="10" min="1" max="50">
+            </div>
+            <div class="form-group">
+              <label for="docFormFee" class="form-label">Consultation Fee ($ USD)</label>
+              <input type="number" id="docFormFee" class="form-input" value="90" min="20" max="500">
+            </div>
+            <div class="form-group">
+              <label for="docFormRoom" class="form-label">Clinic Suite / Room</label>
+              <input type="text" id="docFormRoom" class="form-input" placeholder="e.g. Cardio Wing - Suite 301">
+            </div>
+            <div class="form-group col-span-full">
+              <label for="docFormHours" class="form-label">Consultation Hours</label>
+              <input type="text" id="docFormHours" class="form-input" value="09:00 AM - 04:30 PM">
+            </div>
+            <div class="form-group col-span-full">
+              <label for="docFormImage" class="form-label">Doctor Photo URL (Unsplash or Portrait)</label>
+              <input type="url" id="docFormImage" class="form-input" value="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=600">
+            </div>
+            <div class="form-group col-span-full">
+              <label for="docFormAbout" class="form-label">Clinical Biography</label>
+              <textarea id="docFormAbout" rows="3" class="form-textarea" placeholder="Detail clinical specialties, residency background, and achievements..."></textarea>
+            </div>
+          </div>
+          <div class="flex justify-end gap-3 mt-4 pt-3 border-t border-slate-200">
+            <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Doctor Profile</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Forgot Password Modal -->
+  <div class="modal-overlay" id="forgotPasswordModal" role="dialog" aria-modal="true" aria-labelledby="forgotPasswordTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="forgotPasswordTitle"><i class="fa-solid fa-key text-primary"></i> Reset Account Password</h3>
+        <button class="modal-close-btn" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="text-sm text-muted mb-4">Enter your registered email address to receive password reset instructions.</p>
+        <form id="forgotPasswordForm">
+          <div class="form-group">
+            <label for="forgotEmail" class="form-label">Registered Email Address</label>
+            <input type="email" id="forgotEmail" class="form-input" placeholder="e.g. alex.morgan@example.com" value="alex.morgan@example.com" required>
+          </div>
+          <div class="flex justify-end gap-3 mt-4">
+            <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
+            <button type="submit" class="btn btn-primary">Send Reset Link</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Host Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- ========================================================
+       SITE FOOTER
+       ======================================================== -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a href="#home" class="brand-logo" style="color: #FFFFFF;" data-nav-target="home">
+          <div class="brand-icon-wrapper">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
+          <span>MediCare<span style="color: #14B8A6;">+</span></span>
+        </a>
+        <p>
+          MediCare+ is a modern hospital appointment and electronic medical record management system engineered to deliver world-class digital health services, instant doctor scheduling, and unified patient records.
+        </p>
+        <div class="flex gap-3 mt-4 text-slate-400">
+          <a href="#" class="hover:text-white" title="Twitter / X"><i class="fa-brands fa-x-twitter text-lg"></i></a>
+          <a href="#" class="hover:text-white" title="LinkedIn"><i class="fa-brands fa-linkedin text-lg"></i></a>
+          <a href="#" class="hover:text-white" title="Facebook"><i class="fa-brands fa-facebook text-lg"></i></a>
+          <a href="#" class="hover:text-white" title="GitHub"><i class="fa-brands fa-github text-lg"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Quick Links</h4>
+        <ul class="footer-links-list">
+          <li><a href="#home" data-nav-target="home">Home</a></li>
+          <li><a href="#doctors" data-nav-target="doctors">Find Doctors</a></li>
+          <li><a href="#booking" data-nav-target="booking">Book Appointment</a></li>
+          <li><a href="#records" data-nav-target="records">Medical Records</a></li>
+          <li><a href="#about" data-nav-target="about">About MediCare+</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Specialties</h4>
+        <ul class="footer-links-list">
+          <li><a href="#doctors" onclick="Doctors.currentFilters.specialty='cardiology'; App.navigateTo('doctors')">Cardiology</a></li>
+          <li><a href="#doctors" onclick="Doctors.currentFilters.specialty='neurology'; App.navigateTo('doctors')">Neurology</a></li>
+          <li><a href="#doctors" onclick="Doctors.currentFilters.specialty='dermatology'; App.navigateTo('doctors')">Dermatology</a></li>
+          <li><a href="#doctors" onclick="Doctors.currentFilters.specialty='pediatrics'; App.navigateTo('doctors')">Pediatrics</a></li>
+          <li><a href="#doctors" onclick="Doctors.currentFilters.specialty='orthopedics'; App.navigateTo('doctors')">Orthopedics</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-col-title">Clinic Contact</h4>
+        <ul class="footer-links-list">
+          <li><span class="text-slate-400"><i class="fa-solid fa-location-dot text-primary mr-2"></i> 500 Healthcare Blvd, IL</span></li>
+          <li><span class="text-slate-400"><i class="fa-solid fa-phone text-teal mr-2"></i> +1 (800) 555-CARE</span></li>
+          <li><span class="text-slate-400"><i class="fa-solid fa-envelope text-amber mr-2"></i> help@medicare.org</span></li>
+          <li><span class="text-slate-400"><i class="fa-solid fa-clock text-emerald mr-2"></i> 24/7 Emergency Care</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <span>&copy; 2026 MediCare+ Health Systems. College Capstone Project in Frontend Technologies.</span>
+      <div class="flex gap-4">
+        <span>Privacy Policy</span>
+        <span>•</span>
+        <span>Terms of Service</span>
+        <span>•</span>
+        <span>HIPAA Compliance</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Script Bundle -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/doctors.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/appointments.js"></script>
+  <script src="js/records.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
