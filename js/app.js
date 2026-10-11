@@ -101,6 +101,37 @@ const App = {
       }
     });
 
+    // Notification Bell Toggle
+    const notifBtn = document.getElementById("notifBellBtn");
+    const notifDropdown = document.getElementById("notifDropdown");
+    if (notifBtn && notifDropdown) {
+      notifBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        notifDropdown.classList.toggle("open");
+        const isOpen = notifDropdown.classList.contains("open");
+        notifBtn.setAttribute("aria-expanded", isOpen);
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".notification-bell-wrapper")) {
+          notifDropdown.classList.remove("open");
+          notifBtn.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
+
+    // Mark all notifications as read
+    const markReadBtn = document.getElementById("markAllNotifReadBtn");
+    const notifBadge = document.getElementById("notifBadgeCount");
+    if (markReadBtn) {
+      markReadBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        document.querySelectorAll(".notif-item").forEach(item => item.classList.remove("unread"));
+        if (notifBadge) notifBadge.style.display = "none";
+        this.showToast("All clinical alerts marked as read.", "info");
+      });
+    }
+
     // Reset demo data button
     const resetDataBtn = document.getElementById("resetAllDemoDataBtn");
     if (resetDataBtn) {
@@ -129,8 +160,8 @@ const App = {
   },
 
   navigateTo(viewId, updateHash = true) {
-    const validViews = ["home", "doctors", "booking", "appointments", "records", "dashboard", "profile", "auth", "admin", "about", "contact"];
-    const target = validViews.includes(viewId) ? viewId : "home";
+    const validViews = ["home", "doctors", "booking", "appointments", "records", "dashboard", "profile", "auth", "admin", "about", "contact", "404"];
+    const target = validViews.includes(viewId) ? viewId : "404";
     this.currentView = target;
 
     if (updateHash) {

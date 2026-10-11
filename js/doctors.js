@@ -35,7 +35,7 @@ const Doctors = {
           filterContainer.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
           pill.classList.add("active");
           this.currentFilters.specialty = pill.getAttribute("data-specialty-filter");
-          this.renderDoctorDirectory();
+          this.renderDoctorDirectory(true);
         }
       });
     }
@@ -165,10 +165,30 @@ const Doctors = {
     return list;
   },
 
-  renderDoctorDirectory() {
+  renderSkeletons() {
+    const container = document.getElementById("doctorListContainer");
+    if (!container) return;
+    container.innerHTML = Array(4).fill(0).map(() => `
+      <div class="doctor-skeleton-card">
+        <div class="skeleton-avatar skeleton-shimmer"></div>
+        <div class="skeleton-line title skeleton-shimmer mt-2"></div>
+        <div class="skeleton-line sub skeleton-shimmer mt-1"></div>
+        <div class="skeleton-line full skeleton-shimmer mt-3"></div>
+        <div class="skeleton-line full skeleton-shimmer mt-2"></div>
+      </div>
+    `).join("");
+  },
+
+  renderDoctorDirectory(showLoading = false) {
     const container = document.getElementById("doctorListContainer");
     const countDisplay = document.getElementById("doctorResultCount");
     if (!container) return;
+
+    if (showLoading) {
+      this.renderSkeletons();
+      setTimeout(() => this.renderDoctorDirectory(false), 200);
+      return;
+    }
 
     const doctors = this.getFilteredDoctors();
 

@@ -49,6 +49,65 @@
           <i class="fa-solid fa-moon"></i>
         </button>
 
+        <!-- Notification Bell Flyout (For Logged In Users) -->
+        <div class="notification-bell-wrapper nav-user-only hidden">
+          <button class="notification-bell-btn" id="notifBellBtn" title="View Notifications" aria-label="Notifications" aria-expanded="false">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-count-badge" id="notifBadgeCount">3</span>
+          </button>
+          <div class="notification-dropdown" id="notifDropdown">
+            <div class="notif-header">
+              <h4><i class="fa-solid fa-bell text-primary mr-1"></i> Health Notifications</h4>
+              <button class="btn btn-outline-secondary btn-xs" id="markAllNotifReadBtn">Mark read</button>
+            </div>
+            <ul class="notif-list" id="notifListContainer">
+              <li class="notif-item unread" onclick="App.navigateTo('appointments'); document.getElementById('notifDropdown').classList.remove('open');">
+                <div class="notif-icon-box" style="background: rgba(37, 99, 235, 0.12); color: #2563EB;">
+                  <i class="fa-regular fa-calendar-check"></i>
+                </div>
+                <div class="notif-text">
+                  <h5>Appointment Confirmed</h5>
+                  <p>Dr. Sarah Jenkins (Cardiology) on Oct 15 at 10:30 AM in Suite 402.</p>
+                  <span class="notif-time">10 mins ago</span>
+                </div>
+              </li>
+              <li class="notif-item unread" onclick="App.navigateTo('records'); document.getElementById('notifDropdown').classList.remove('open');">
+                <div class="notif-icon-box" style="background: rgba(16, 185, 129, 0.12); color: #10B981;">
+                  <i class="fa-solid fa-vial-circle-check"></i>
+                </div>
+                <div class="notif-text">
+                  <h5>Lab Test Report Ready</h5>
+                  <p>Executive Blood Panel & Lipid Profile uploaded to your records.</p>
+                  <span class="notif-time">2 hours ago</span>
+                </div>
+              </li>
+              <li class="notif-item unread" onclick="App.navigateTo('records'); document.getElementById('notifDropdown').classList.remove('open');">
+                <div class="notif-icon-box" style="background: rgba(20, 184, 166, 0.12); color: #14B8A6;">
+                  <i class="fa-solid fa-prescription"></i>
+                </div>
+                <div class="notif-text">
+                  <h5>Prescription Issued (Rx)</h5>
+                  <p>Atorvastatin 10mg & Omega-3 issued by Dr. Priya Patel.</p>
+                  <span class="notif-time">Yesterday</span>
+                </div>
+              </li>
+              <li class="notif-item" onclick="App.navigateTo('dashboard'); document.getElementById('notifDropdown').classList.remove('open');">
+                <div class="notif-icon-box" style="background: rgba(139, 92, 246, 0.12); color: #8B5CF6;">
+                  <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <div class="notif-text">
+                  <h5>Preventive Wellness Tip</h5>
+                  <p>Remember to stay hydrated and take a 10-minute posture stretch today.</p>
+                  <span class="notif-time">2 days ago</span>
+                </div>
+              </li>
+            </ul>
+            <div class="notif-footer">
+              <a href="#appointments" class="text-xs text-primary font-bold" onclick="document.getElementById('notifDropdown').classList.remove('open'); App.navigateTo('appointments');">View All Clinical Alerts &rarr;</a>
+            </div>
+          </div>
+        </div>
+
         <!-- Guest state -->
         <div class="nav-guest-only flex items-center gap-2">
           <button class="btn btn-secondary btn-sm" onclick="App.navigateTo('auth'); Auth.switchAuthTab('login')">
@@ -1331,6 +1390,35 @@
             <h4 class="font-bold text-lg mb-2"><i class="fa-solid fa-clock text-amber mr-2"></i> Operating Hours</h4>
             <p class="text-sm text-muted">Outpatient Clinic: Mon - Sat: 8:00 AM - 6:00 PM<br>Emergency & Trauma Care: 24/7 / 365 Days</p>
           </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================
+       VIEW: CUSTOM 404 HEALTHCARE ERROR PAGE
+       ======================================================== -->
+  <main class="app-view hidden" id="view_404">
+    <div class="error-404-container">
+      <div class="error-404-card fade-in">
+        <div class="error-404-icon">
+          <i class="fa-solid fa-heart-crack"></i>
+        </div>
+        <div class="error-404-code">404</div>
+        <h2 class="error-404-title">Clinical Page Not Found</h2>
+        <p class="error-404-desc">
+          The healthcare resource, doctor profile, or electronic medical record file you are looking for has been moved, archived, or does not exist in our hospital registry.
+        </p>
+        <div class="flex justify-center gap-3 flex-wrap">
+          <button class="btn btn-primary" onclick="App.navigateTo('home')">
+            <i class="fa-solid fa-house"></i> Return to Home
+          </button>
+          <button class="btn btn-outline-primary" onclick="App.navigateTo('doctors')">
+            <i class="fa-solid fa-user-doctor"></i> Find a Doctor
+          </button>
+          <button class="btn btn-outline-secondary" onclick="App.navigateTo('contact')">
+            <i class="fa-solid fa-headset"></i> Contact Triage Desk
+          </button>
         </div>
       </div>
     </div>
