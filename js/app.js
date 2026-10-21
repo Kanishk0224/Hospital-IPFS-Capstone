@@ -13,6 +13,7 @@ const App = {
     this.initTheme();
 
     // 3. Initialize Modules
+    IPFS.init();
     Auth.init();
     Doctors.init();
     Booking.init();

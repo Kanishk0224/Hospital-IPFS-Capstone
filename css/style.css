@@ -236,6 +236,16 @@ img {
   background-color: var(--color-primary-light);
 }
 
+.btn-outline-teal {
+  background-color: transparent;
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+.btn-outline-teal:hover {
+  background-color: var(--color-secondary-light);
+}
+
+
 .btn-outline-secondary {
   background-color: transparent;
   color: var(--text-muted);
@@ -287,7 +297,9 @@ img {
 
 .badge-primary { background: var(--color-primary-light); color: var(--color-primary); }
 .badge-teal { background: var(--color-secondary-light); color: var(--color-secondary); }
+.badge-emerald { background: var(--color-success-bg); color: var(--color-success); border: 1px solid rgba(16, 185, 129, 0.3); }
 .badge-success { background: var(--color-success-bg); color: var(--color-success); }
+
 .badge-warning { background: var(--color-warning-bg); color: var(--color-warning); }
 .badge-danger { background: var(--color-danger-bg); color: var(--color-danger); }
 .badge-info { background: var(--color-info-bg); color: var(--color-info); }

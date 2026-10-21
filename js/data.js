@@ -396,9 +396,32 @@ const DEFAULT_MEDICAL_RECORDS = [
     recommendations: "Adopt Mediterranean dietary habits, increase aerobic exercise to 150 mins/week, repeat lipid panel in 6 months.",
     hasPrescription: true,
     prescriptionId: "RX-88421",
+    // IPFS Decentralized Health Ledger Properties
+    ipfsCid: "bafybeicz3jlnkvp37x7b5z4wug2vvyqf5q47tqqg3y6r7e6z6c4pwyvaia",
+    ipfsCidV0: "QmZtmD2qt8fJpq3CLDHyt5iDTWPnMcDYwEzKn1zsmmstPb",
+    ipfsPinStatus: "Pinned on MediCare+ Node",
+    ipfsGatewayUrl: "https://ipfs.io/ipfs/bafybeicz3jlnkvp37x7b5z4wug2vvyqf5q47tqqg3y6r7e6z6c4pwyvaia",
+    tamperProofHash: "9a7516597951c062c3e414f44a30e7ca4578b7b252086e392576b92a2a2253cf",
+    encryptionCipher: "AES-GCM-256 (HIPAA Enveloped)",
+    merkleRoot: "bafyreicx2q5y7m7r6v4v4jlwkgphw75n6i3t2lq3q2w7d2v2u3p4q5r6s7",
+    merkleBlocks: 6,
     attachments: [
-      { name: "Executive_Panel_Lab_Report.pdf", size: "1.4 MB", type: "PDF" },
-      { name: "Resting_ECG_Trace.pdf", size: "840 KB", type: "PDF" }
+      {
+        name: "Executive_Panel_Lab_Report.pdf",
+        size: "1.4 MB",
+        type: "PDF",
+        cid: "bafybeih4j3h4mvdn4hfx37jebvknx5qffl5h35h3j7b4k2j4p3j7b4k2ja",
+        gatewayUrl: "https://ipfs.io/ipfs/bafybeih4j3h4mvdn4hfx37jebvknx5qffl5h35h3j7b4k2j4p3j7b4k2ja",
+        verified: true
+      },
+      {
+        name: "Resting_ECG_Trace.pdf",
+        size: "840 KB",
+        type: "PDF",
+        cid: "bafybeidw6c7j4k2j4p3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2ja",
+        gatewayUrl: "https://ipfs.io/ipfs/bafybeidw6c7j4k2j4p3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2ja",
+        verified: true
+      }
     ]
   },
   {
@@ -421,8 +444,23 @@ const DEFAULT_MEDICAL_RECORDS = [
     recommendations: "Avoid contact with plant allergens. Wash with gentle fragrance-free cleanser.",
     hasPrescription: true,
     prescriptionId: "RX-66120",
+    ipfsCid: "bafybeifk4v2p5x3h7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2j4p3a",
+    ipfsCidV0: "QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco",
+    ipfsPinStatus: "Pinned on MediCare+ Node",
+    ipfsGatewayUrl: "https://ipfs.io/ipfs/bafybeifk4v2p5x3h7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2j4p3a",
+    tamperProofHash: "3b68832a82643a6d713c2ca984b2be8b7b252086e392576b92a2a2253cf9a751",
+    encryptionCipher: "AES-GCM-256 (HIPAA Enveloped)",
+    merkleRoot: "bafyreih5v2p5x3h7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2j4p3b",
+    merkleBlocks: 9,
     attachments: [
-      { name: "Dermatology_Clinical_Photos.pdf", size: "2.1 MB", type: "PDF" }
+      {
+        name: "Dermatology_Clinical_Photos.pdf",
+        size: "2.1 MB",
+        type: "PDF",
+        cid: "bafybeid7b4k2j4p3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2ja4h",
+        gatewayUrl: "https://ipfs.io/ipfs/bafybeid7b4k2j4p3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2ja4h",
+        verified: true
+      }
     ]
   },
   {
@@ -444,9 +482,31 @@ const DEFAULT_MEDICAL_RECORDS = [
     labSummary: "Radiographs: Left Knee AP & Lateral views demonstrate well-preserved joint spaces without osteophytes.",
     recommendations: "RICE protocol for 5 days. Quad strengthening exercises, isometric hamstring stretching.",
     hasPrescription: false,
+    ipfsCid: "bafybeig9m3k4j2p3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2j4p3c",
+    ipfsCidV0: "QmZ4tDuvesekSs4qM5ZBKpXiZGun7S2CYtEZRB3DYXkjGx",
+    ipfsPinStatus: "Pinned on MediCare+ Node",
+    ipfsGatewayUrl: "https://ipfs.io/ipfs/bafybeig9m3k4j2p3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2j4p3c",
+    tamperProofHash: "8f42a6c17b352086e392576b92a2a2253cf9a7516597951c062c3e414f44a30e",
+    encryptionCipher: "AES-GCM-256 (HIPAA Enveloped)",
+    merkleRoot: "bafyreih6x3h7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2j4p3c4d5e",
+    merkleBlocks: 13,
     attachments: [
-      { name: "Knee_AP_Lateral_XRay.pdf", size: "3.2 MB", type: "PDF" },
-      { name: "Physical_Therapy_Protocol.pdf", size: "620 KB", type: "PDF" }
+      {
+        name: "Knee_AP_Lateral_XRay.pdf",
+        size: "3.2 MB",
+        type: "PDF",
+        cid: "bafybeih5h35h3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2ja4hfx3",
+        gatewayUrl: "https://ipfs.io/ipfs/bafybeih5h35h3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2ja4hfx3",
+        verified: true
+      },
+      {
+        name: "Physical_Therapy_Protocol.pdf",
+        size: "620 KB",
+        type: "PDF",
+        cid: "bafybeiffl5h35h3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2ja4hf",
+        gatewayUrl: "https://ipfs.io/ipfs/bafybeiffl5h35h3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2ja4hf",
+        verified: true
+      }
     ]
   },
   {
@@ -467,8 +527,23 @@ const DEFAULT_MEDICAL_RECORDS = [
     recommendations: "Prescribed lubricating ocular drops, 20-20-20 rule during screen use, blue-light filter lenses.",
     hasPrescription: true,
     prescriptionId: "RX-55419",
+    ipfsCid: "bafybeih6m2k4j2p3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2j4p3d",
+    ipfsCidV0: "QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG",
+    ipfsPinStatus: "Pinned on MediCare+ Node",
+    ipfsGatewayUrl: "https://ipfs.io/ipfs/bafybeih6m2k4j2p3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2j4p3d",
+    tamperProofHash: "5d41402abc4b2a76b9719d911017c592b2be8b7b252086e392576b92a2a2253c",
+    encryptionCipher: "AES-GCM-256 (HIPAA Enveloped)",
+    merkleRoot: "bafyreih7y4j2ja4hfx37jebvknx5qffl5h35h3j7b4k2j4p3d5e6f7g8h",
+    merkleBlocks: 2,
     attachments: [
-      { name: "Ophthalmic_Refraction_Sheet.pdf", size: "450 KB", type: "PDF" }
+      {
+        name: "Ophthalmic_Refraction_Sheet.pdf",
+        size: "450 KB",
+        type: "PDF",
+        cid: "bafybeibknx5qffl5h35h3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k",
+        gatewayUrl: "https://ipfs.io/ipfs/bafybeibknx5qffl5h35h3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k",
+        verified: true
+      }
     ]
   }
 ];
@@ -518,6 +593,11 @@ const DEFAULT_PRESCRIPTIONS = [
     ],
     doctorNotes: "Monitor liver enzymes in 12 weeks. Maintain regular low-impact cardio exercises.",
     digitalSignature: "Priya Patel, MD",
+    digitalSignatureHash: "SIG-ECDSA-SHA256:0x7a89f92bb45601c2389e81b671a5c689f012de9a8",
+    ipfsCid: "bafybeidw6c7j4k2j4p3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2ja",
+    ipfsPinStatus: "Pinned on MediCare+ Node",
+    ipfsGatewayUrl: "https://ipfs.io/ipfs/bafybeidw6c7j4k2j4p3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2ja",
+    encryptionCipher: "AES-GCM-256 (Enveloped)",
     verified: true
   },
   {
@@ -564,6 +644,11 @@ const DEFAULT_PRESCRIPTIONS = [
     ],
     doctorNotes: "If redness spreads or weeping develops, contact clinic immediately.",
     digitalSignature: "Elena Rostova, MD",
+    digitalSignatureHash: "SIG-ECDSA-SHA256:0x3c54d19aa82715e4782c19a421b8e954c231ef6b2",
+    ipfsCid: "bafybeiffl5h35h3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2ja4hf",
+    ipfsPinStatus: "Pinned on MediCare+ Node",
+    ipfsGatewayUrl: "https://ipfs.io/ipfs/bafybeiffl5h35h3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k2ja4hf",
+    encryptionCipher: "AES-GCM-256 (Enveloped)",
     verified: true
   },
   {
@@ -592,9 +677,35 @@ const DEFAULT_PRESCRIPTIONS = [
     ],
     doctorNotes: "Wear prescribed computer blue-light glasses for prolonged VDT work.",
     digitalSignature: "Ethan Brooks, MD",
+    digitalSignatureHash: "SIG-ECDSA-SHA256:0x9f18a24c568902d1847e32c819a0f472e816ab9c4",
+    ipfsCid: "bafybeibknx5qffl5h35h3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k",
+    ipfsPinStatus: "Pinned on MediCare+ Node",
+    ipfsGatewayUrl: "https://ipfs.io/ipfs/bafybeibknx5qffl5h35h3j7b4k2ja4hfx37jebvknx5qffl5h35h3j7b4k",
+    encryptionCipher: "AES-GCM-256 (Enveloped)",
     verified: true
   }
 ];
+
+const DEFAULT_IPFS_NODE = {
+  peerId: "12D3KooWQr6V7eYvK91f1mC3jL9aB1m6q1w2e3r4t5y6u7i8o9p0",
+  agentVersion: "helia/medicare-health-cluster/v2.4.0",
+  protocolVersion: "ipfs/0.1.0",
+  status: "Online",
+  network: "MediCare+ Federated Health Swarm",
+  gateway: "https://ipfs.io/ipfs/",
+  region: "US-East (Illinois Healthcare Gateway)",
+  activePeers: 18,
+  totalPins: 14,
+  pinnedStorage: "2.42 GB",
+  encryption: "AES-GCM-256 (Client-side Enveloped)",
+  peersList: [
+    { name: "MediCare Central Primary Node", peerId: "12D3KooWQr6V...9p0", location: "Chicago, IL", latency: "4ms", status: "Connected" },
+    { name: "Mayo Clinic Research Swarm", peerId: "12D3KooWP81a...4x1", location: "Rochester, MN", latency: "18ms", status: "Connected" },
+    { name: "Johns Hopkins Federated Peer", peerId: "12D3KooWN32c...7b2", location: "Baltimore, MD", latency: "24ms", status: "Connected" },
+    { name: "London NHS Clinical Gateway", peerId: "12D3KooWQ99z...1m5", location: "London, UK", latency: "78ms", status: "Connected" },
+    { name: "Singapore National Health Ledger", peerId: "12D3KooWL44k...8p3", location: "Singapore, SG", latency: "142ms", status: "Connected" }
+  ]
+};
 
 const DEFAULT_TESTIMONIALS = [
   {
@@ -629,3 +740,4 @@ const DEFAULT_ADMIN = {
   department: "Hospital Executive Operations",
   avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=300"
 };
+

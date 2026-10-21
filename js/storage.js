@@ -11,7 +11,9 @@ const Storage = {
     PATIENT: "medicare_patient_profile_v1",
     AUTH_USER: "medicare_auth_user_v1",
     THEME: "medicare_theme_v1",
-    SPECIALTIES: "medicare_specialties_v1"
+    SPECIALTIES: "medicare_specialties_v1",
+    IPFS_NODE: "medicare_ipfs_node_v1",
+    IPFS_PINS: "medicare_ipfs_pins_v1"
   },
 
   init() {
@@ -21,10 +23,13 @@ const Storage = {
     if (!localStorage.getItem(this.KEYS.APPOINTMENTS)) {
       this.setAppointments(DEFAULT_APPOINTMENTS);
     }
-    if (!localStorage.getItem(this.KEYS.RECORDS)) {
+    // Always refresh records/prescriptions if older version without IPFS fields exists
+    const existingRecs = localStorage.getItem(this.KEYS.RECORDS);
+    if (!existingRecs || !existingRecs.includes("ipfsCid")) {
       this.setRecords(DEFAULT_MEDICAL_RECORDS);
     }
-    if (!localStorage.getItem(this.KEYS.PRESCRIPTIONS)) {
+    const existingRx = localStorage.getItem(this.KEYS.PRESCRIPTIONS);
+    if (!existingRx || !existingRx.includes("ipfsCid")) {
       this.setPrescriptions(DEFAULT_PRESCRIPTIONS);
     }
     if (!localStorage.getItem(this.KEYS.PATIENT)) {
@@ -32,6 +37,24 @@ const Storage = {
     }
     if (!localStorage.getItem(this.KEYS.SPECIALTIES)) {
       localStorage.setItem(this.KEYS.SPECIALTIES, JSON.stringify(DEFAULT_SPECIALTIES));
+    }
+    if (!localStorage.getItem(this.KEYS.IPFS_NODE)) {
+      localStorage.setItem(this.KEYS.IPFS_NODE, JSON.stringify(DEFAULT_IPFS_NODE));
+    }
+    if (!localStorage.getItem(this.KEYS.IPFS_PINS)) {
+      const initialPins = DEFAULT_MEDICAL_RECORDS.map(r => ({
+        cid: r.ipfsCid,
+        cidV0: r.ipfsCidV0,
+        title: r.title,
+        type: "Clinical Record",
+        recordId: r.id,
+        size: "1.4 MB",
+        pinnedAt: r.date,
+        pinStatus: "Pinned",
+        merkleRoot: r.merkleRoot,
+        encrypted: true
+      }));
+      localStorage.setItem(this.KEYS.IPFS_PINS, JSON.stringify(initialPins));
     }
     // Default logged in user for immediate seamless capstone evaluation
     if (!localStorage.getItem(this.KEYS.AUTH_USER)) {
@@ -222,6 +245,42 @@ const Storage = {
     localStorage.setItem(this.KEYS.THEME, theme);
   },
 
+  // IPFS Node & Pins
+  getIpfsNode() {
+    try {
+      const data = localStorage.getItem(this.KEYS.IPFS_NODE);
+      return data ? JSON.parse(data) : DEFAULT_IPFS_NODE;
+    } catch (e) {
+      return DEFAULT_IPFS_NODE;
+    }
+  },
+
+  setIpfsNode(node) {
+    localStorage.setItem(this.KEYS.IPFS_NODE, JSON.stringify(node));
+  },
+
+  getIpfsPins() {
+    try {
+      const data = localStorage.getItem(this.KEYS.IPFS_PINS);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  },
+
+  addIpfsPin(pin) {
+    const list = this.getIpfsPins();
+    list.unshift(pin);
+    localStorage.setItem(this.KEYS.IPFS_PINS, JSON.stringify(list));
+    return list;
+  },
+
+  deleteIpfsPin(cid) {
+    const list = this.getIpfsPins().filter(p => p.cid !== cid);
+    localStorage.setItem(this.KEYS.IPFS_PINS, JSON.stringify(list));
+    return list;
+  },
+
   // Reset to original mock data
   resetAllData() {
     localStorage.removeItem(this.KEYS.DOCTORS);
@@ -231,6 +290,9 @@ const Storage = {
     localStorage.removeItem(this.KEYS.PATIENT);
     localStorage.removeItem(this.KEYS.AUTH_USER);
     localStorage.removeItem(this.KEYS.SPECIALTIES);
+    localStorage.removeItem(this.KEYS.IPFS_NODE);
+    localStorage.removeItem(this.KEYS.IPFS_PINS);
     this.init();
   }
 };
+

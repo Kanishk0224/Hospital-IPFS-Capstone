@@ -1043,3 +1043,153 @@
   justify-content: center;
   margin: 0 auto 1.25rem;
 }
+
+/* ========================================================
+   IPFS Decentralized Health Ledger Styles
+   ======================================================== */
+
+.ipfs-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ipfs-nav-btn:hover {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 12px rgba(20, 184, 166, 0.25);
+}
+
+.ipfs-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10B981;
+  display: inline-block;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: ipfsPulse 2s infinite;
+}
+
+@keyframes ipfsPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.ipfs-overview-banner {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.08) 0%, rgba(37, 99, 235, 0.06) 100%);
+  border: 1px solid rgba(20, 184, 166, 0.25);
+  border-radius: var(--radius-xl);
+}
+
+.ipfs-verified-banner {
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(20, 184, 166, 0.08) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.ipfs-shield-pulse {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-xl);
+  background-color: rgba(16, 185, 129, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.merkle-dag-container {
+  padding: 1.25rem;
+  background-color: var(--bg-surface-subtle);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.merkle-dag-node.root-node {
+  display: inline-block;
+  padding: 0.65rem 1.25rem;
+  background-color: var(--bg-surface);
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.merkle-dag-node .node-badge {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+}
+
+.merkle-dag-node .node-hash {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0.2rem 0;
+}
+
+.merkle-dag-node .node-meta {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  display: block;
+}
+
+.merkle-tree-lines {
+  width: 2px;
+  height: 18px;
+  background-color: var(--border-color);
+  margin: 0 auto;
+}
+
+.merkle-leaves-grid {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.merkle-leaf-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.4rem 0.75rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  min-width: 75px;
+}
+
+.merkle-leaf-item .leaf-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-secondary);
+  margin-bottom: 3px;
+}
+
+.btn-xxs {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  border-radius: var(--radius-sm);
+}
+

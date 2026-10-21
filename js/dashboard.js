@@ -62,6 +62,7 @@ const Dashboard = {
     setVal("statCompletedAppointments", completedApps.length);
     setVal("statMedicalRecords", totalRecords);
     setVal("statActivePrescriptions", totalRx);
+    setVal("statIpfsPins", Storage.getIpfsPins().length);
 
     // 3. Upcoming Appointment Hero Card
     const upcomingContainer = document.getElementById("dashboardUpcomingAppCard");

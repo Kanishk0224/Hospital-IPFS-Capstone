@@ -1,0 +1,23 @@
+@import "../styles/tokens.css";
+@import "../styles/base.css";
+@import "../styles/components.css";
+@import "../styles/layout.css";
+@import "../styles/views.css";
+@import "../styles/responsive.css";
+
+/* Next.js Global resets & refinements */
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
